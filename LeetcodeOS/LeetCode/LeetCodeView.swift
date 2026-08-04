@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct LeetCodeView: View {
-    let openTerminal: () -> Void
-
+    @EnvironmentObject private var appModel: AppModel
     @AppStorage("leetcodeUsername") private var username = ""
     @State private var daily: DailyChallenge?
     @State private var stats: UserStats?
@@ -83,7 +82,7 @@ struct LeetCodeView: View {
 
             HStack {
                 Button {
-                    openTerminal()
+                    appModel.tab = .terminal
                 } label: {
                     Label("Solve in Terminal", systemImage: "terminal")
                         .frame(maxWidth: .infinity)

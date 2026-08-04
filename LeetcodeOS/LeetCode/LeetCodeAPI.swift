@@ -36,7 +36,7 @@ enum LeetCodeError: LocalizedError {
 enum LeetCodeAPI {
     private static let endpoint = URL(string: "https://leetcode.com/graphql")!
 
-    private static func graphql(query: String, variables: [String: Any] = [:]) async throws -> [String: Any] {
+    static func graphqlPublic(query: String, variables: [String: Any] = [:]) async throws -> [String: Any] {
         var request = URLRequest(url: endpoint)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -73,7 +73,7 @@ enum LeetCodeAPI {
           }
         }
         """
-        let data = try await graphql(query: query)
+        let data = try await graphqlPublic(query: query)
         guard let active = data["activeDailyCodingChallengeQuestion"] as? [String: Any],
               let question = active["question"] as? [String: Any],
               let title = question["title"] as? String else {
@@ -105,7 +105,7 @@ enum LeetCodeAPI {
           }
         }
         """
-        let data = try await graphql(query: query, variables: ["username": username])
+        let data = try await graphqlPublic(query: query, variables: ["username": username])
         guard let user = data["matchedUser"] as? [String: Any] else {
             throw LeetCodeError.userNotFound
         }

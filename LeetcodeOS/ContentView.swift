@@ -1,19 +1,34 @@
 import SwiftUI
 
 enum AppTab: Hashable {
-    case terminal, leetcode, settings
+    case terminal, plan, leetcode, settings
+}
+
+@MainActor
+final class AppModel: ObservableObject {
+    @Published var tab: AppTab = .terminal
+    @Published var pendingCommand: String?
+
+    func solveInTerminal(day: Int) {
+        pendingCommand = String(format: "cd ~/leetcode30/day%02d 2>/dev/null && ls || echo 'day %d not set up yet - ask claude'", day, day)
+        tab = .terminal
+    }
 }
 
 struct ContentView: View {
-    @State private var tab: AppTab = .terminal
+    @EnvironmentObject private var appModel: AppModel
 
     var body: some View {
-        TabView(selection: $tab) {
+        TabView(selection: $appModel.tab) {
             TerminalView()
                 .tabItem { Label("Terminal", systemImage: "terminal.fill") }
                 .tag(AppTab.terminal)
 
-            LeetCodeView(openTerminal: { tab = .terminal })
+            StudyPlanView()
+                .tabItem { Label("30 Days", systemImage: "calendar") }
+                .tag(AppTab.plan)
+
+            LeetCodeView()
                 .tabItem { Label("LeetCode", systemImage: "chevron.left.forwardslash.chevron.right") }
                 .tag(AppTab.leetcode)
 
