@@ -1,0 +1,1 @@
+- ASC PATCH /v1/apps bundleId repoint returns 500 until the target bundle ID is registered — POST /v1/bundleIds first, then the PATCH succeeds; apps.name can't be PATCHed, rename via /v1/appInfoLocalizations instead.
