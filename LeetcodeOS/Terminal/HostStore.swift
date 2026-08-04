@@ -38,6 +38,11 @@ final class HostStore: ObservableObject {
                              urlString: "http://saints-macbook-air.tail40af16.ts.net:7681")
             ]
         }
+        // Migration: make sure the dedicated leetcode shell (:7682) is in the list.
+        if !hosts.contains(where: { $0.urlString.contains(":7682") }) {
+            hosts.append(TerminalHost(name: "leetcode (Mac)",
+                                      urlString: "http://saints-macbook-air.tail40af16.ts.net:7682"))
+        }
         if let raw = UserDefaults.standard.string(forKey: Self.selectedKey),
            let id = UUID(uuidString: raw) {
             selectedID = id
