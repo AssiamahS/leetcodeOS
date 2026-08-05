@@ -121,9 +121,17 @@ struct TerminalView: View {
     private func runPendingCommand() {
         guard let cmd = appModel.pendingCommand else { return }
         appModel.pendingCommand = nil
-        // Small delay so a freshly opened tab has the socket up.
-        Task {
-            try? await Task.sleep(for: .seconds(isLoading ? 1.5 : 0.2))
+        // Solve commands belong in the plain leetcode shell (:7682), never in a
+        // slyterm/claude session where they'd be read as a chat message.
+        var settle = isLoading ? 1.5 : 0.2
+        if let lc = hostStore.hosts.first(where: { $0.urlString.contains(":7682") }),
+           hostStore.selectedHost?.id != lc.id {
+            hostStore.selectedID = lc.id
+            reloadToken += 1
+            settle = 2.5
+        }
+        Task { [settle] in
+            try? await Task.sleep(for: .seconds(settle))
             controller.send(cmd + "\n")
         }
     }

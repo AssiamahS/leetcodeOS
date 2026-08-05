@@ -10,7 +10,7 @@ final class AppModel: ObservableObject {
     @Published var pendingCommand: String?
 
     func solveInTerminal(day: Int) {
-        pendingCommand = String(format: "cd ~/leetcode30/day%02d 2>/dev/null && ls || echo 'day %d not set up yet - ask claude'", day, day)
+        pendingCommand = String(format: "cd ~/leetcode30/day%02d 2>/dev/null && ls || echo 'day %d not set up yet'", day, day)
         tab = .terminal
     }
 }
