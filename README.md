@@ -1,5 +1,7 @@
 # leetcodeOS
 
+**Install:** open [assiamahs.github.io/leetcodeOS/install.html](https://assiamahs.github.io/leetcodeOS/install.html) in Safari on your iPhone.
+
 iPhone terminal + LeetCode daily practice.
 
 - **Terminal** — full terminal on your phone (Termius-style host list). Connects over Tailscale to any ttyd web terminal; ships pointed at slyterm on the Mac (`:7681`).
